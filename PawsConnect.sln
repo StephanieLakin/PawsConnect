@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33801.468
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawsConnect", "PawsConnect\PawsConnect.csproj", "{571FA0B0-AA90-4296-AC39-31A695F3A634}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawsConnectData", "PawsConnectData\PawsConnectData.csproj", "{3F11C8C7-11B5-4318-AECE-7818E78954C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{571FA0B0-AA90-4296-AC39-31A695F3A634}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{571FA0B0-AA90-4296-AC39-31A695F3A634}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{571FA0B0-AA90-4296-AC39-31A695F3A634}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{571FA0B0-AA90-4296-AC39-31A695F3A634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F11C8C7-11B5-4318-AECE-7818E78954C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F11C8C7-11B5-4318-AECE-7818E78954C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F11C8C7-11B5-4318-AECE-7818E78954C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F11C8C7-11B5-4318-AECE-7818E78954C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6F78D2BE-3663-4B8E-9C2C-DCDDC9585F48}
+	EndGlobalSection
+EndGlobal
