@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PawsConnect.Models.ActivityLog;
 using PawsConnect.Models.Users;
 using PawsConnectData.Data;
 using PawsConnectData.Entities;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Security.Cryptography;
 
 namespace PawsConnect.Services
@@ -11,7 +13,7 @@ namespace PawsConnect.Services
     {
         Task<UserModel[]> GetUsers();
 
-        Task<UserModel> GetUserById(Guid userId);
+        Task<UserModel?> GetUserById(Guid userId);
 
         Task CreateUser(CreateUserModel user);
 
@@ -43,30 +45,70 @@ namespace PawsConnect.Services
             users = await _pcContext.Users
                 .Select(u => new UserModel
                 {
-                  //  UserName = u.UserName,
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    UserName = u.UserName,
                     Email = u.Email,
-                    PasswordHash = u.PasswordHash,
-                    PasswordSalt = u.PasswordSalt,
-                    VerificationToken = u.VerificationToken
+                    ProfilePicture = u.ProfilePicture                   
                 }).ToArrayAsync();
 
             return users;
         }
 
 
-        public async Task<UserModel> GetUserById(Guid userId)
+        public async Task<UserModel?> GetUserById(Guid userId)
         {
-            throw new NotImplementedException();
+            var user = await _pcContext.Users
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var userModel = new UserModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                ProfilePicture = user.ProfilePicture,
+            };
+            return userModel;
         }
 
         public async Task CreateUser(CreateUserModel user)
         {
-            throw new NotImplementedException();
+            User newUser = new User
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email = user.Email,
+                ProfilePicture = user?.ProfilePicture,
+            };
+            _pcContext.Users.Add(newUser);
+            await _pcContext.SaveChangesAsync();
         }
 
-        public async Task EditUser(UpdateUserModel userId)
+        public async Task EditUser(UpdateUserModel updatedUser)
         {
-            throw new NotImplementedException();
+            var user = await _pcContext.Users.FirstOrDefaultAsync(user => user.Id == updatedUser.Id);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            user.FirstName = updatedUser.FirstName;
+            user.LastName = updatedUser.LastName;
+            user.UserName = updatedUser.UserName;
+            user.Email = updatedUser.Email;
+            user.ProfilePicture = updatedUser.ProfilePicture;
+
+            await _pcContext.SaveChangesAsync();
         }
 
         public async Task DeleteUser(Guid userId)
@@ -131,7 +173,7 @@ namespace PawsConnect.Services
             var user = await _pcContext.Users.FirstOrDefaultAsync(u => u.VerificationToken == token);
             if (user == null)
             {
-                throw new Exception("Invelid Token");
+                throw new Exception("Invalid Token");
             }
 
             user.VerifiedAt = DateTime.UtcNow;
@@ -166,7 +208,6 @@ namespace PawsConnect.Services
             user.PassWordResetExpires = null;
             await _pcContext.SaveChangesAsync();
         }
-
 
 
         private string CreateRandomToken()

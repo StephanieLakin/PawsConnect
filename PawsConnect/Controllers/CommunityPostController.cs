@@ -19,7 +19,7 @@ namespace PawsConnect.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> GetActivityLogs()
+        public async Task<IActionResult> GetCommunityPosts()
         {
             try
             {
@@ -33,8 +33,8 @@ namespace PawsConnect.Controllers
         }
 
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetActivityLogById(Guid communityPostId)
+        [HttpGet("{communityPostId}")]
+        public async Task<IActionResult> GetCommunityPostById(Guid communityPostId)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace PawsConnect.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("{communityPostId}")]
         public async Task<IActionResult> EditCommunityPost([FromBody] UpdateCommunityPostModel updatedCommunityPost)
         {
             try

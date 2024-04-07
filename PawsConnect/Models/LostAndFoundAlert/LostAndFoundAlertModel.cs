@@ -24,7 +24,5 @@ namespace PawsConnect.Models.LostAndFoundAlert
 
         public string Notes { get; set; }
 
-        public UserModel User { get; set; } // Navigation property       
-        public DogModel Dog { get; set; } // Navigation property
     }
 }

@@ -139,7 +139,7 @@ namespace PawsConnect.Controllers
 
 
         [HttpPut("{userId}")]
-        public async Task<IActionResult> EditActivityLog([FromBody] UpdateUserModel userId)
+        public async Task<IActionResult> EditUser([FromBody] UpdateUserModel userId)
         {
             try
             {

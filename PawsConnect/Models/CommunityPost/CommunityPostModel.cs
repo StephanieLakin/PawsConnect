@@ -12,8 +12,7 @@ namespace PawsConnect.Models.CommunityPost
 
         public DateTime DateTimePosted { get; set; } 
 
-        public Guid UserId { get; set; } // Foreign key
-        public UserModel User { get; set; } // Navigation property
+        public Guid UserId { get; set; } // Foreign key        
     }
 }
 

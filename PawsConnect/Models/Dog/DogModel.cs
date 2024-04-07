@@ -25,10 +25,6 @@ namespace PawsConnect.Models.Dog
 
         public DateTime CreatedDate { get; set; }
 
-        public Guid UserId { get; set; } // Foreign key
-        public UserModel User { get; set; } // Navigation property
-        public List<HealthRecordModel> HealthRecords { get; set; } // Navigation property
-        public List<ActivityLogModel> ActivityLogs { get; set; } // Navigation property
-        public List<LostFoundAlert> LostFoundAlerts { get; set; } // Navigation property
+        public Guid UserId { get; set; } // Foreign key       
     }
 }

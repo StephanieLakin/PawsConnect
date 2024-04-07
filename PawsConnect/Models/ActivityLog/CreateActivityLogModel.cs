@@ -17,7 +17,7 @@ namespace PawsConnect.Models.ActivityLog
         public double CaloriesBurned { get; set; }
 
         public string? Notes { get; set; }
-        public Guid DogId { get; set; } // Foreign key
-        public DogModel Dog { get; set; } // Navigation property
+
+        public Guid DogId { get; set; } // Foreign key      
     }
 }

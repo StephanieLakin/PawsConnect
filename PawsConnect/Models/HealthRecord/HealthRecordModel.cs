@@ -27,7 +27,6 @@ namespace PawsConnect.Models.HealthRecord
 
         public DateTime Created { get; set; }
 
-        public Guid DogId { get; set; } // Foreign key
-        public DogModel Dog { get; set; } // Navigation property
+        public Guid DogId { get; set; } // Foreign key       
     }
 }

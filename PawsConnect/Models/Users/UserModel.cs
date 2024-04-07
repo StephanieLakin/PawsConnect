@@ -38,7 +38,7 @@ namespace PawsConnect.Models.Users
 
         public string? ProfilePicture { get; set; }
 
-        public DateTime VerifiedAt { get; set; }
+        public DateTime? VerifiedAt { get; set; }
 
         //public List<DogModel> Dogs { get; set; } // Navigation property
         //public List<CommunityPostModel> CommunityPosts { get; set; } // Navigation property

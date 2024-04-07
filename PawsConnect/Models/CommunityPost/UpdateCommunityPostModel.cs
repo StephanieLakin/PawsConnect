@@ -7,8 +7,6 @@
         public string Content { get; set; }
 
         public string Image { get; set; } // single image for simplicity at this time
-
-        public DateTime DateTimePosted { get; set; }
        
     }
 }

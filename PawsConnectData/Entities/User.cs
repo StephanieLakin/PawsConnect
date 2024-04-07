@@ -32,7 +32,7 @@ namespace PawsConnectData.Entities
 
         public string? ProfilePicture { get; set; }
 
-        public DateTime VerifiedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? VerifiedAt { get; set; } = DateTime.UtcNow;
 
         public ICollection<ActivityLog>? ActivityLogs { get; set; }
         public ICollection<CommunityPost>? CommunityPosts { get; set; }       

@@ -13,7 +13,7 @@ namespace PawsConnect.Services
 
         Task CreateCommunityPost(CreateCommunityPostModel communityPostPost);
 
-        Task EditCommunityPost(UpdateCommunityPostModel communityPostId);
+        Task EditCommunityPost(UpdateCommunityPostModel UpdatedPost);
 
         Task DeleteCommunityPost(Guid communityPostId);
 
@@ -76,18 +76,29 @@ namespace PawsConnect.Services
             await _pcContext.SaveChangesAsync();                
         }
 
-        public Task EditCommunityPost(UpdateCommunityPostModel communityPostId)
+        public async Task EditCommunityPost(UpdateCommunityPostModel communityPost)
         {
-            throw new NotImplementedException();
+            var cpost = await _pcContext.CommunityPosts.FirstOrDefaultAsync(cpost => cpost.Id == communityPost.Id);
+            if (cpost == null)
+            {
+                return;
+            }
+
+            cpost.Content = communityPost.Content;
+            cpost.Image = communityPost.Image;
+            await _pcContext.SaveChangesAsync();
         }
 
-        public Task DeleteCommunityPost(Guid communityPostId)
+        public async Task DeleteCommunityPost(Guid communityPostId)
         {
-            throw new NotImplementedException();
+           var cpost = await _pcContext.CommunityPosts.FirstOrDefaultAsync(cp => cp.Id == communityPostId);
+            if (cpost == null)
+            {
+                return;  
+            }
+
+            _pcContext.CommunityPosts.Remove(cpost);
+            await _pcContext.SaveChangesAsync();
         }
-
-    
-
-      
     }
 }

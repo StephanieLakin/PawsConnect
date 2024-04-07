@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PawsConnect.Models.ActivityLog;
-using PawsConnect.Models.Dog;
-using PawsConnect.Models.HealthRecord;
 using PawsConnectData.Data;
 using PawsConnectData.Entities;
-using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
 
 namespace PawsConnect.Services
 {
@@ -15,7 +9,7 @@ namespace PawsConnect.Services
     {
         Task<ActivityLogModel[]> GetActivityLogs();
 
-        Task <ActivityLogModel> GetActivityLogById(Guid activityLogId);
+        Task <ActivityLogModel?> GetActivityLogById(Guid activityLogId);
 
         Task CreateActivityLog(CreateActivityLogModel activityLogPost);
 
@@ -51,7 +45,7 @@ namespace PawsConnect.Services
             return activityLogs;
         }
 
-        public async Task<ActivityLogModel> GetActivityLogById(Guid activityLogId)
+        public async Task<ActivityLogModel?> GetActivityLogById(Guid activityLogId)
         {       
             var activityLog = await _pcContext.ActivityLogs
                 .FirstOrDefaultAsync(al => al.Id == activityLogId);
