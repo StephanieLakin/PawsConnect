@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PawsConnect.Models.CommunityServices;
+using PawsConnect.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +10,86 @@ namespace PawsConnect.Controllers
     [ApiController]
     public class CommunityServicesController : ControllerBase
     {
-        // GET: api/<ServicesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private ICommunityServicesService _communityServicesService;
+
+        public CommunityServicesController(ICommunityServicesService communityServicesService)
         {
-            return new string[] { "value1", "value2" };
+            _communityServicesService = communityServicesService;
+
         }
 
-        // GET api/<ServicesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("")]
+        public async Task<IActionResult> GetCommunityServicess()
         {
-            return "value";
+            try
+            {
+                var result = await _communityServicesService.GetCommunityServicess();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // POST api/<ServicesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+
+        [HttpGet("{communityServicesId}")]
+        public async Task<IActionResult> GetCommunityServicesById(Guid communityServicesId)
         {
+            try
+            {
+                var result = await _communityServicesService.GetCommunityServicesById(communityServicesId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // PUT api/<ServicesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+
+        [HttpPost("")]
+        public async Task<IActionResult> CreateCommunityServices([FromBody] CreateCommunityServiceModel communityServices)
         {
+            try
+            {
+                await _communityServicesService.CreateCommunityServices(communityServices);
+                return Ok(communityServices);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // DELETE api/<ServicesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+
+        [HttpPut("{communityServicesId}")]
+        public async Task<IActionResult> EditCommunityServices([FromBody] UpdateCommunityServiceModel updatedCommunityServices)
         {
+            try
+            {
+                await _communityServicesService.EditCommunityServices(updatedCommunityServices);
+                return Ok(updatedCommunityServices);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpDelete("{communityServicesId}")]
+        public async Task<IActionResult> DeleteCommunityServices(Guid communityServicesId)
+        {
+            try
+            {
+                await _communityServicesService.DeleteCommunityServices(communityServicesId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

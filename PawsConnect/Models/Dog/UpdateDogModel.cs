@@ -17,5 +17,7 @@
         public string MedicalHistory { get; set; }
 
         public string Allergies { get; set; }
+
+        public Guid UserId { get; set; }
     }
 }

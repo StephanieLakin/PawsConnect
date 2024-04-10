@@ -20,9 +20,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "yourIssuer", // Set your issuer
-            ValidAudience = "yourAudience", // Set your audience
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("yourSecretKey")) // Set your secret key
+            ValidIssuer = "Issuer", // Set  issuer
+            ValidAudience = "Audience", // Set audience
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SecretKey")) // Set secret key
         };
     });
 
@@ -40,8 +40,8 @@ builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
 builder.Services.AddScoped<ICommunityPostService, CommunityPostService>();
 builder.Services.AddScoped<IDogService, DogService>();
 builder.Services.AddScoped<IHealthRecordService, HealthRecordService>();
-builder.Services.AddScoped<ILostFoundAlertService, LostFoundAlertService>();
-builder.Services.AddScoped<IServicesService, ServicesService>();
+builder.Services.AddScoped<ILostAndFoundAlertService, LostAndFoundAlertService>();
+builder.Services.AddScoped<ICommunityServicesService, CommunityServicesService>();
 builder.Services.AddScoped<BaseService, BaseService>();
 
 var app = builder.Build();

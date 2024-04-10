@@ -1,9 +1,7 @@
 ﻿namespace PawsConnect.Models.HealthRecord
 {
-    public class UpdateHealthRecord
+    public class CreateHealthRecordModel
     {
-        public Guid Id { get; set; }
-
         public string? Vaccinations { get; set; }
 
         public string? Medications { get; set; }
@@ -21,5 +19,7 @@
         public string? VeterinaryPracticeName { get; set; }
 
         public int VeterinarianPhoneNumber { get; set; }
+
+        public DateTime Created { get; set; }
     }
 }

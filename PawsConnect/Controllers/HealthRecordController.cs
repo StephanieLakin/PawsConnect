@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PawsConnect.Models.HealthRecord;
+using PawsConnect.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +10,86 @@ namespace PawsConnect.Controllers
     [ApiController]
     public class HealthRecordController : ControllerBase
     {
-        // GET: api/<HealthRecordController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private IHealthRecordService _healthRecordService;
+
+        public HealthRecordController(IHealthRecordService healthRecordService)
         {
-            return new string[] { "value1", "value2" };
+            _healthRecordService = healthRecordService;
+
         }
 
-        // GET api/<HealthRecordController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("")]
+        public async Task<IActionResult> GetHealthRecords()
         {
-            return "value";
+            try
+            {
+                var result = await _healthRecordService.GetHealthRecords();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // POST api/<HealthRecordController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+
+        [HttpGet("{healthRecordId}")]
+        public async Task<IActionResult> GetHealthRecordById(Guid healthRecordId)
         {
+            try
+            {
+                var result = await _healthRecordService.GetHealthRecordById(healthRecordId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // PUT api/<HealthRecordController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+
+        [HttpPost("")]
+        public async Task<IActionResult> CreateHealthRecord([FromBody] CreateHealthRecordModel healthRecord)
         {
+            try
+            {
+                await _healthRecordService.CreateHealthRecord(healthRecord);
+                return Ok(healthRecord);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // DELETE api/<HealthRecordController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+
+        [HttpPut("{healthRecordId}")]
+        public async Task<IActionResult> EditHealthRecord([FromBody] UpdateHealthRecordModel updatedHealthRecord)
         {
+            try
+            {
+                await _healthRecordService.EditHealthRecord(updatedHealthRecord);
+                return Ok(updatedHealthRecord);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpDelete("{healthRecordId}")]
+        public async Task<IActionResult> DeleteHealthRecord(Guid healthRecordId)
+        {
+            try
+            {
+                await _healthRecordService.DeleteHealthRecord(healthRecordId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

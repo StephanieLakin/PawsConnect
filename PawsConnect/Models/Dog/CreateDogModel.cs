@@ -17,5 +17,8 @@
         public string Allergies { get; set; }
 
         public DateTime CreatedDate { get; set; }
+
+        public Guid UserId { get; set; }
+
     }
 }

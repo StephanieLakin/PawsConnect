@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PawsConnect.Models.LostAndFoundAlert;
+using PawsConnect.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -6,38 +8,88 @@ namespace PawsConnect.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LostFoundAlertController : ControllerBase
+    public class LostAndFoundAlertController : ControllerBase
     {
-        // GET: api/<LostFoundAlertController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private ILostAndFoundAlertService _lostFoundAlertService;
+
+        public LostAndFoundAlertController(ILostAndFoundAlertService lostFoundAlertService)
         {
-            return new string[] { "value1", "value2" };
+            _lostFoundAlertService = lostFoundAlertService;
+
         }
 
-        // GET api/<LostFoundAlertController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("")]
+        public async Task<IActionResult> GetLostAndFoundAlerts()
         {
-            return "value";
+            try
+            {
+                var result = await _lostFoundAlertService.GetLostAndFoundAlerts();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // POST api/<LostFoundAlertController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+
+        [HttpGet("{lostFoundAlertId}")]
+        public async Task<IActionResult> GetLostAndFoundAlertById(Guid lostFoundAlertId)
         {
+            try
+            {
+                var result = await _lostFoundAlertService.GetLostAndFoundAlertById(lostFoundAlertId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // PUT api/<LostFoundAlertController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+
+        [HttpPost("")]
+        public async Task<IActionResult> CreateLostAndFoundAlert([FromBody] CreateLostAndFoundAlertModel lostFoundAlert)
         {
+            try
+            {
+                await _lostFoundAlertService.CreateLostAndFoundAlert(lostFoundAlert);
+                return Ok(lostFoundAlert);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // DELETE api/<LostFoundAlertController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+
+        [HttpPut("{lostFoundAlertId}")]
+        public async Task<IActionResult> EditLostAndFoundAlert([FromBody] UpdateLostAndFoundAlertModel updatedLostAndFoundAlert)
         {
+            try
+            {
+                await _lostFoundAlertService.EditLostAndFoundAlert(updatedLostAndFoundAlert);
+                return Ok(updatedLostAndFoundAlert);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpDelete("{lostFoundAlertId}")]
+        public async Task<IActionResult> DeleteLostAndFoundAlert(Guid lostFoundAlertId)
+        {
+            try
+            {
+                await _lostFoundAlertService.DeleteLostAndFoundAlert(lostFoundAlertId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

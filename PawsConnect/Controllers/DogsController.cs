@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PawsConnect.Models.Dog;
+using PawsConnect.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +10,86 @@ namespace PawsConnect.Controllers
     [ApiController]
     public class DogsController : ControllerBase
     {
-        // GET: api/<DogsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private IDogService _dogService;
+
+        public DogsController(IDogService dogService)
         {
-            return new string[] { "value1", "value2" };
+            _dogService = dogService;
+
         }
 
-        // GET api/<DogsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("")]
+        public async Task<IActionResult> GetDogs()
         {
-            return "value";
+            try
+            {
+                var result = await _dogService.GetDogs();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // POST api/<DogsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+
+        [HttpGet("{dogId}")]
+        public async Task<IActionResult> GetDogById(Guid dogId)
         {
+            try
+            {
+                var result = await _dogService.GetDogById(dogId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // PUT api/<DogsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+
+        [HttpPost("")]
+        public async Task<IActionResult> CreateDog([FromBody] CreateDogModel dog)
         {
+            try
+            {
+                await _dogService.CreateDog(dog);
+                return Ok(dog);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // DELETE api/<DogsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+
+        [HttpPut("{dogId}")]
+        public async Task<IActionResult> EditDog([FromBody] UpdateDogModel updatedDog)
         {
+            try
+            {
+                await _dogService.EditDog(updatedDog);
+                return Ok(updatedDog);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpDelete("{dogId}")]
+        public async Task<IActionResult> DeleteDog(Guid dogId)
+        {
+            try
+            {
+                await _dogService.DeleteDog(dogId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
