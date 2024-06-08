@@ -39,7 +39,12 @@ namespace PawsConnect.Services
                     MedicalHistory = d.MedicalHistory,
                     Allergies = d.Allergies,
                     CreatedDate = d.CreatedDate,
-                    UserId = d.UserId                                     
+                    UserId = d.UserId, 
+                    Bio = d.Bio,
+                    ImageUrl1 = d.ImageUrl1,
+                    ImageUrl2 = d.ImageUrl2,
+                    ImageUrl3 = d.ImageUrl3
+
                 }).ToArrayAsync();
             return dogs;
         }
@@ -65,29 +70,48 @@ namespace PawsConnect.Services
                 MedicalHistory = dog.MedicalHistory,
                 Allergies = dog.Allergies,
                 CreatedDate = dog.CreatedDate,
-                UserId = dog.UserId
+                UserId = dog.UserId,
+                Bio = dog.Bio,
+                ImageUrl1 = dog.ImageUrl1,
+                ImageUrl2 = dog.ImageUrl2,
+                ImageUrl3 = dog.ImageUrl3
             };
             return dogModel;
         }
 
+     
+
         public async Task CreateDog(CreateDogModel dog)
         {
+            var user = await _pcContext.Users.FindAsync(dog.UserId);
+            if (user == null)
+            {
+                throw new Exception($"User ID {dog.UserId} does not exist");
+            }
+
             Dog doggy = new Dog
             {
                 Id = Guid.NewGuid(),
                 Name = dog.Name,
                 Breed = dog.Breed,
+                Description = dog.Description,
                 Gender = dog.Gender,
                 Weight = dog.Weight,
                 DateOfBirth = dog.DateOfBirth,
                 MedicalHistory = dog.MedicalHistory,
-                Allergies   = dog.Allergies,
-                CreatedDate = dog.CreatedDate,
-                UserId = dog.UserId                
+                Allergies = dog.Allergies,
+                CreatedDate = DateTime.UtcNow,
+                Bio = dog.Bio,
+                ImageUrl1 = dog.ImageUrl1,
+                ImageUrl2 = dog.ImageUrl2,
+                ImageUrl3 = dog.ImageUrl3,
+                UserId = dog.UserId
             };
+
             _pcContext.Dogs.Add(doggy);
             await _pcContext.SaveChangesAsync();
         }
+
 
         public async Task EditDog(UpdateDogModel dog)
         {
@@ -99,12 +123,17 @@ namespace PawsConnect.Services
 
             doggy.Name = dog.Name;
             doggy.Breed = dog.Breed;
+            doggy.Description = dog.Description;
             doggy.Gender = dog.Gender;
             doggy.Weight = dog.Weight;
             doggy.DateOfBirth = dog.DateOfBirth;
             doggy.MedicalHistory = dog.MedicalHistory;
             doggy.Allergies = dog.Allergies;
             doggy.UserId = dog.UserId;
+            doggy.Bio = dog.Bio;
+            doggy.ImageUrl1 = dog.ImageUrl1;
+            doggy.ImageUrl2 = dog.ImageUrl2;
+            doggy.ImageUrl3 = dog.ImageUrl3;
 
             await _pcContext.SaveChangesAsync();
         }

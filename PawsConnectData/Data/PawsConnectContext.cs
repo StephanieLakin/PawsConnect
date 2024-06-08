@@ -56,6 +56,15 @@ namespace PawsConnectData.Data
                 .HasForeignKey(a => a.DogId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<Dog>()
+                .Property(d => d.Name)
+                .IsRequired();
+            
+            modelBuilder.Entity<Dog>()
+                .Property(d => d.Bio)
+                .HasMaxLength(500);
+
+
             modelBuilder.Entity<User>()
                 .HasMany(u => u.CommunityPosts)
                 .WithOne(cp => cp.User)

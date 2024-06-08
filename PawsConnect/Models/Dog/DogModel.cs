@@ -2,6 +2,7 @@
 using PawsConnect.Models.HealthRecord;
 using PawsConnect.Models.Users;
 using PawsConnectData.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace PawsConnect.Models.Dog
 {
@@ -12,6 +13,8 @@ namespace PawsConnect.Models.Dog
         public string Name { get; set; }
 
         public string Breed { get; set; }
+
+        public string Description { get; set; }
 
         public DateTime DateOfBirth { get; set; }
 
@@ -24,6 +27,15 @@ namespace PawsConnect.Models.Dog
         public string Allergies { get; set; }
 
         public DateTime CreatedDate { get; set; }
+
+        public string? ImageUrl1 { get; set; }
+
+        public string? ImageUrl2 { get; set; }
+
+        public string? ImageUrl3 { get; set; }
+
+        public string? Bio { get; set; }
+
 
         public Guid UserId { get; set; } // Foreign key       
     }

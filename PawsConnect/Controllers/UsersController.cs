@@ -20,19 +20,34 @@ namespace PawsConnect.Controllers
 
         }
 
+        //[HttpPost("register")]
+        //public async Task<IActionResult> Register(UserRegisterRequestModel request)
+        //{
+        //    try
+        //    {
+        //        await _userService.Register(request);
+        //        return Ok("User registered successfully.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterRequestModel request)
         {
             try
             {
                 await _userService.Register(request);
-                return Ok("User registered successfully.");
+                return Ok(new { message = "User registered successfully." });
             }
             catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
+            {               
+                return BadRequest(new { error = ex.Message });
             }
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginRequest request)
@@ -40,11 +55,11 @@ namespace PawsConnect.Controllers
             try
             {
                 await _userService.Login(request);
-                return Ok("User logged in successfully.");
+                return Ok(new { message = "User logged in successfully." });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = ex.Message });
             }
         }
 
@@ -137,14 +152,14 @@ namespace PawsConnect.Controllers
             }
         }
 
-
         [HttpPut("{userId}")]
-        public async Task<IActionResult> EditUser([FromBody] UpdateUserModel userId)
+        public async Task<IActionResult> EditUser(Guid userId, [FromBody] UpdateUserModel updatedUser)
         {
             try
             {
-                await _userService.EditUser(userId);
-                return Ok(userId);
+                updatedUser.Id = userId;
+                await _userService.EditUser(updatedUser);
+                return Ok(updatedUser);
             }
             catch (Exception ex)
             {

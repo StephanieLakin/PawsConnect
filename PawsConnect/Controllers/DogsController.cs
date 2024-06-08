@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PawsConnect.Models.Dog;
 using PawsConnect.Services;
+using System;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,10 +14,12 @@ namespace PawsConnect.Controllers
     public class DogsController : ControllerBase
     {
         private IDogService _dogService;
+        private readonly IUserService _userService;
 
-        public DogsController(IDogService dogService)
+        public DogsController(IDogService dogService, IUserService userService)
         {
             _dogService = dogService;
+            _userService = userService;
 
         }
 
@@ -53,6 +58,7 @@ namespace PawsConnect.Controllers
         {
             try
             {
+                Console.WriteLine("Received create dog request: " + JsonConvert.SerializeObject(dog));
                 await _dogService.CreateDog(dog);
                 return Ok(dog);
             }
@@ -64,10 +70,11 @@ namespace PawsConnect.Controllers
 
 
         [HttpPut("{dogId}")]
-        public async Task<IActionResult> EditDog([FromBody] UpdateDogModel updatedDog)
+        public async Task<IActionResult> EditDog(Guid dogId,[FromBody] UpdateDogModel updatedDog)
         {
             try
             {
+               
                 await _dogService.EditDog(updatedDog);
                 return Ok(updatedDog);
             }

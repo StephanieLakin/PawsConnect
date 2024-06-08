@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawsConnectData.Data;
 
@@ -11,9 +12,10 @@ using PawsConnectData.Data;
 namespace PawsConnectData.Migrations
 {
     [DbContext(typeof(PawsConnectContext))]
-    partial class PawsConnectContextModelSnapshot : ModelSnapshot
+    [Migration("20240530030341_updateDogModel")]
+    partial class updateDogModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,6 +104,7 @@ namespace PawsConnectData.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Bio")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -116,6 +119,7 @@ namespace PawsConnectData.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")

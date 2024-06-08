@@ -8,23 +8,38 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+       builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .WithExposedHeaders("content-Disposition")
+                   .SetIsOriginAllowedToAllowWildcardSubdomains();
+
+        });
+});
+
+
 
 builder.Services.AddControllers();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = "Issuer", // Set  issuer
-            ValidAudience = "Audience", // Set audience
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SecretKey")) // Set secret key
-        };
-    });
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuer = true,
+//            ValidateAudience = true,
+//            ValidateLifetime = true,
+//            ValidateIssuerSigningKey = true,
+//            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+//            ValidAudience = builder.Configuration["Jwt:Audience"],
+//            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))        
+//    };
+//    });
 
 builder.Services.AddAuthorization();
 
@@ -46,6 +61,9 @@ builder.Services.AddScoped<BaseService, BaseService>();
 
 var app = builder.Build();
 
+app.UseCors("AllowAllOrigins");
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -53,8 +71,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 
+app.UseHttpsRedirection();
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

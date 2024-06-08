@@ -131,6 +131,11 @@ namespace PawsConnect.Services
                 throw new Exception("User Already Exists");
             }
 
+            if (request.Password != request.ConfirmPassword)
+            {
+                throw new Exception("Passwords do not match.");
+            } 
+
             CreatePasswordHash(request.Password,
                 out byte[] passwordHash,
                 out byte[] passwordSalt);

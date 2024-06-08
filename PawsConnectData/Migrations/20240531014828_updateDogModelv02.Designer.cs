@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawsConnectData.Data;
 
@@ -11,9 +12,10 @@ using PawsConnectData.Data;
 namespace PawsConnectData.Migrations
 {
     [DbContext(typeof(PawsConnectContext))]
-    partial class PawsConnectContextModelSnapshot : ModelSnapshot
+    [Migration("20240531014828_updateDogModelv02")]
+    partial class updateDogModelv02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

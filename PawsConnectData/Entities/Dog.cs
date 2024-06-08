@@ -21,6 +21,8 @@ namespace PawsConnectData.Entities
 
         public string Breed { get; set; }
 
+        public string? Description { get; set; }
+
         public DateTime DateOfBirth { get; set; }
 
         public string Gender { get; set; }
@@ -32,6 +34,15 @@ namespace PawsConnectData.Entities
         public string Allergies { get; set; }
 
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;  
+
+        public string ImageUrl1 { get; set; }
+
+        public string ImageUrl2 { get; set; }
+
+        public  string ImageUrl3 { get; set; }
+
+        [MaxLength(500)]
+        public string? Bio { get; set; } 
 
         public ICollection<HealthRecord> HealthRecords { get; set; }
         public ICollection<ActivityLog> ActivityLogs { get; set; }
